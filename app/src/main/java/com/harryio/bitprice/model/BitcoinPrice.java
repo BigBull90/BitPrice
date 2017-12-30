@@ -1,7 +1,18 @@
 package com.harryio.bitprice.model;
 
+import android.support.annotation.StringDef;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+
 public final class BitcoinPrice {
 
+    @Retention(RetentionPolicy.SOURCE)
+    @StringDef
+    public @interface SourceType {
+
+    }
+
+    @SourceType
     private String source;
     private String price;
     private boolean error;
@@ -10,12 +21,12 @@ public final class BitcoinPrice {
         error = true;
     }
 
-    private BitcoinPrice(String source, String price) {
+    private BitcoinPrice(@SourceType String source, String price) {
         this.source = source;
         this.price = price;
     }
 
-    public static BitcoinPrice forValue(String source, String price) {
+    public static BitcoinPrice forValue(@SourceType String source, String price) {
         return new BitcoinPrice(source, price);
     }
 
@@ -23,6 +34,7 @@ public final class BitcoinPrice {
         return new BitcoinPrice();
     }
 
+    @SourceType
     public String getSource() {
         return source;
     }
