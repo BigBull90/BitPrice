@@ -12,11 +12,12 @@ public final class BitcoinPrice {
     public @interface PriceSource {
 
         int COINSECURE = R.string.coinsecure;
+        int KOINEX = R.string.koinex;
     }
 
     @PriceSource
     private int source;
-    private float price;
+    private String price;
     private Throwable throwable;
 
     private BitcoinPrice() {
@@ -28,10 +29,19 @@ public final class BitcoinPrice {
 
     private BitcoinPrice(@PriceSource int source, float price) {
         this.source = source;
+        this.price = String.valueOf(price);
+    }
+
+    private BitcoinPrice(@PriceSource int source, String price) {
+        this.source = source;
         this.price = price;
     }
 
     public static BitcoinPrice forValue(@PriceSource int source, float price) {
+        return new BitcoinPrice(source, price);
+    }
+
+    public static BitcoinPrice forValue(@PriceSource int source, String price) {
         return new BitcoinPrice(source, price);
     }
 
@@ -44,7 +54,7 @@ public final class BitcoinPrice {
         return source;
     }
 
-    public float getPrice() {
+    public String getPrice() {
         return price;
     }
 
