@@ -1,6 +1,6 @@
 package com.harryio.bitprice.model;
 
-public class CoinSecureWrapper {
+public final class CoinSecureWrapper {
 
     private boolean success;
     private Coinsecure message;
