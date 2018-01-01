@@ -13,6 +13,7 @@ public final class BitcoinPrice {
 
         int COINSECURE = R.string.coinsecure;
         int KOINEX = R.string.koinex;
+        int ZEBPAY = R.string.koinex;
     }
 
     @PriceSource

@@ -17,6 +17,7 @@ public final class ApiInteractor {
 
         String COINSECURE = "https://api.coinsecure.in/v1/exchange/ticker";
         String KOINEX = "https://koinex.in/api/ticker";
+        String ZEBPAY = "https://www.zebapi.com/api/v1/market/ticker/btc/inr";
     }
 
     public static Single<BitcoinPrice> fetchCoinsecurePrice() {
@@ -35,5 +36,11 @@ public final class ApiInteractor {
                     return BitcoinPrice.forValue(PriceSource.KOINEX, data.getBTC());
                 })
                 .onErrorReturn(BitcoinPrice::forError);
+    }
+
+    public static Single<BitcoinPrice> fetchZebpayPrice() {
+        return ServiceFactory.getService().fetchZebpayPrice(ApiUrl.ZEBPAY)
+                .map(zebpay -> BitcoinPrice.forValue(PriceSource.ZEBPAY, zebpay.getBuy()))
+                .doOnError(BitcoinPrice::forError);
     }
 }
