@@ -1,49 +1,58 @@
 package com.harryio.bitprice.model;
 
-import android.support.annotation.StringDef;
+import android.support.annotation.IntDef;
+import com.harryio.bitprice.R;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 public final class BitcoinPrice {
 
     @Retention(RetentionPolicy.SOURCE)
-    @StringDef
-    public @interface SourceType {
+    @IntDef(PriceSource.COINSECURE)
+    public @interface PriceSource {
 
+        int COINSECURE = R.string.coinsecure;
     }
 
-    @SourceType
-    private String source;
-    private String price;
-    private boolean error;
+    @PriceSource
+    private int source;
+    private float price;
+    private Throwable throwable;
 
     private BitcoinPrice() {
-        error = true;
     }
 
-    private BitcoinPrice(@SourceType String source, String price) {
+    private BitcoinPrice(Throwable throwable) {
+        this.throwable = throwable;
+    }
+
+    private BitcoinPrice(@PriceSource int source, float price) {
         this.source = source;
         this.price = price;
     }
 
-    public static BitcoinPrice forValue(@SourceType String source, String price) {
+    public static BitcoinPrice forValue(@PriceSource int source, float price) {
         return new BitcoinPrice(source, price);
     }
 
-    public static BitcoinPrice forError() {
-        return new BitcoinPrice();
+    public static BitcoinPrice forError(Throwable throwable) {
+        return new BitcoinPrice(throwable);
     }
 
-    @SourceType
-    public String getSource() {
+    @PriceSource
+    public int getSource() {
         return source;
     }
 
-    public String getPrice() {
+    public float getPrice() {
         return price;
     }
 
     public boolean isError() {
-        return error;
+        return throwable != null;
+    }
+
+    public Throwable getError() {
+        return throwable;
     }
 }
