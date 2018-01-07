@@ -79,6 +79,7 @@ public final class ApiInteractor {
                 .filter(coinDelta -> coinDelta.getMarketName().equals("btc-inr"))
                 .map(coinDelta -> BitcoinPrice
                         .forValue(PriceSource.COINDELTA, coinDelta.getPrice()))
-                .singleOrError();
+                .singleOrError()
+                .doOnError(BitcoinPrice::forError);
     }
 }
