@@ -4,17 +4,28 @@ import com.google.gson.annotations.SerializedName;
 
 public class LocalBitcoins {
 
-    @SerializedName("rates")
-    private LocalBitcoinRate rate;
+    @SerializedName("INR")
+    private LocalBitcoinsInner btc;
 
     public float getPrice() {
-        return rate.getPrice();
+        return btc.getPrice();
     }
 
-    private class LocalBitcoinRate {
+    private class LocalBitcoinsInner {
+
+        @SerializedName("rates")
+        private LocalBitcoinsRate rate;
+
+        private float getPrice() {
+            return rate.getPrice();
+        }
+    }
+
+    private class LocalBitcoinsRate {
+
         private String last;
 
-        public float getPrice() {
+        private float getPrice() {
             return Float.valueOf(last);
         }
     }

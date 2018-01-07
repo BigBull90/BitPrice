@@ -1,9 +1,9 @@
 package com.harryio.bitprice.net;
 
 import com.harryio.bitprice.model.CoinDelta;
-import com.harryio.bitprice.model.CoinSecureWrapper;
-import com.harryio.bitprice.model.KoinexWrapper;
-import com.harryio.bitprice.model.LocalBitcoinsWrapper;
+import com.harryio.bitprice.model.CoinSecure;
+import com.harryio.bitprice.model.Koinex;
+import com.harryio.bitprice.model.LocalBitcoins;
 import com.harryio.bitprice.model.Paxful;
 import com.harryio.bitprice.model.RateWrapper;
 import com.harryio.bitprice.model.Zebpay;
@@ -15,10 +15,10 @@ import retrofit2.http.Url;
 public interface BitPriceService {
 
     @GET
-    Single<CoinSecureWrapper> fetchCoinsecurePrice(@Url String url);
+    Single<CoinSecure> fetchCoinsecurePrice(@Url String url);
 
     @GET
-    Single<KoinexWrapper> fetchKoinexPrice(@Url String url);
+    Single<Koinex> fetchKoinexPrice(@Url String url);
 
     @GET
     Single<Zebpay> fetchZebpayPrice(@Url String url);
@@ -30,7 +30,7 @@ public interface BitPriceService {
     Single<Paxful> fetchPaxfulPrice(@Url String url);
 
     @GET
-    Single<LocalBitcoinsWrapper> fetchLocalBitcoinPrice(@Url String url);
+    Single<LocalBitcoins> fetchLocalBitcoinPrice(@Url String url);
 
     @GET
     Single<List<CoinDelta>> fetchCoinDeltaPrice(@Url String url);

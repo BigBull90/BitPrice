@@ -4,10 +4,19 @@ import com.google.gson.annotations.SerializedName;
 
 public final class Koinex {
 
-    @SerializedName("BTC")
-    private String btc;
+    private KoinexInner prices;
 
-    public String getBTC() {
-        return btc;
+    public String getPrice() {
+        return prices.getBTC();
+    }
+
+    private class KoinexInner {
+
+        @SerializedName("BTC")
+        private String btc;
+
+        private String getBTC() {
+            return btc;
+        }
     }
 }
