@@ -7,7 +7,7 @@ public final class LocalBitcoins {
     @SerializedName("INR")
     private LocalBitcoinsInner btc;
 
-    public float getPrice() {
+    public String getPrice() {
         return btc.getPrice();
     }
 
@@ -16,7 +16,7 @@ public final class LocalBitcoins {
         @SerializedName("rates")
         private LocalBitcoinsRate rate;
 
-        private float getPrice() {
+        private String getPrice() {
             return rate.getPrice();
         }
     }
@@ -25,8 +25,8 @@ public final class LocalBitcoins {
 
         private String last;
 
-        private float getPrice() {
-            return Float.valueOf(last);
+        private String getPrice() {
+            return last;
         }
     }
 }
