@@ -2,7 +2,7 @@ package com.harryio.bitprice.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Rate {
+public final class Rate {
 
     @SerializedName("rates")
     private RateInner rate;

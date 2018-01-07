@@ -2,7 +2,7 @@ package com.harryio.bitprice.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class LocalBitcoins {
+public final class LocalBitcoins {
 
     @SerializedName("INR")
     private LocalBitcoinsInner btc;
