@@ -5,6 +5,7 @@ import com.harryio.bitprice.model.BitcoinPrice;
 import com.harryio.bitprice.model.BitcoinPrice.PriceSource;
 import com.harryio.bitprice.model.Coinsecure;
 import com.harryio.bitprice.model.Koinex;
+import com.harryio.bitprice.model.Rate;
 import io.reactivex.Single;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -15,9 +16,11 @@ public final class ApiInteractor {
     @StringDef
     public @interface ApiUrl {
 
+        String DOLLAR_RATE = "https://api.fixer.io/latest?base=USD&symbols=INR";
         String COINSECURE = "https://api.coinsecure.in/v1/exchange/ticker";
         String KOINEX = "https://koinex.in/api/ticker";
         String ZEBPAY = "https://www.zebapi.com/api/v1/market/ticker/btc/inr";
+        String PAXFUL = "https://paxful.com/api/currency/btc";
     }
 
     public static Single<BitcoinPrice> fetchCoinsecurePrice() {
@@ -42,5 +45,18 @@ public final class ApiInteractor {
         return ServiceFactory.getService().fetchZebpayPrice(ApiUrl.ZEBPAY)
                 .map(zebpay -> BitcoinPrice.forValue(PriceSource.ZEBPAY, zebpay.getBuy()))
                 .doOnError(BitcoinPrice::forError);
+    }
+
+    public static Single<BitcoinPrice> fetchPaxfulPrice() {
+        return ServiceFactory.getService().fetchPaxfulPrice(ApiUrl.PAXFUL)
+                .zipWith(ServiceFactory.getService().fetchDollarRate(ApiUrl.DOLLAR_RATE),
+                        (paxful, rateWrapper) -> {
+                            Rate dollarRate = rateWrapper.getRate();
+                            float bitcoinPriceInDollar = paxful.getPrice();
+                            float inrPrice = bitcoinPriceInDollar * dollarRate.getInr();
+                            return BitcoinPrice.forValue(PriceSource.PAXFUL, inrPrice);
+                        })
+                .doOnError(BitcoinPrice::forError);
+
     }
 }
