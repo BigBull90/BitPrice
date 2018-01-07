@@ -7,6 +7,7 @@ import com.harryio.bitprice.model.Coinsecure;
 import com.harryio.bitprice.model.Koinex;
 import com.harryio.bitprice.model.LocalBitcoins;
 import com.harryio.bitprice.model.Rate;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -23,6 +24,7 @@ public final class ApiInteractor {
         String ZEBPAY = "https://www.zebapi.com/api/v1/market/ticker/btc/inr";
         String PAXFUL = "https://paxful.com/api/currency/btc";
         String LOCAL_BITCOINS = "https://localbitcoins.com/bitcoinaverage/ticker-all-currencies/";
+        String COINDELTA = "https://coindelta.com/api/v1/public/getticker/";
     }
 
     public static Single<BitcoinPrice> fetchCoinsecurePrice() {
@@ -62,13 +64,22 @@ public final class ApiInteractor {
 
     }
 
-    public static Single<BitcoinPrice> fethcLocalBitcoinPrice() {
+    public static Single<BitcoinPrice> fetchLocalBitcoinPrice() {
         return ServiceFactory.getService().fetchLocalBitcoinPrice(ApiUrl.LOCAL_BITCOINS)
                 .map(localBitcoinsWrapper -> {
                     LocalBitcoins btc = localBitcoinsWrapper.getBtc();
                     return BitcoinPrice.forValue(PriceSource.LOCAL_BITCOINS, btc.getPrice());
                 })
                 .doOnError(BitcoinPrice::forError);
+    }
 
+    public static Single<BitcoinPrice> fetchCoinDeltaPrice() {
+        return ServiceFactory.getService().fetchCoinDeltaPrice(ApiUrl.COINDELTA).toObservable()
+                .flatMap(Observable::fromIterable)
+                .filter(coinDelta -> coinDelta.getMarketName().equals("btc-inr"))
+                .map(coinDelta -> BitcoinPrice
+                        .forValue(PriceSource.COINDELTA, coinDelta.getPrice()))
+                .singleOrError()
+                .doOnError(BitcoinPrice::forError);
     }
 }
