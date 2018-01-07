@@ -2,6 +2,7 @@ package com.harryio.bitprice.net;
 
 import com.harryio.bitprice.model.CoinSecureWrapper;
 import com.harryio.bitprice.model.KoinexWrapper;
+import com.harryio.bitprice.model.LocalBitcoinsWrapper;
 import com.harryio.bitprice.model.Paxful;
 import com.harryio.bitprice.model.RateWrapper;
 import com.harryio.bitprice.model.Zebpay;
@@ -25,4 +26,7 @@ public interface BitPriceService {
 
     @GET
     Single<Paxful> fetchPaxfulPrice(@Url String url);
+
+    @GET
+    Single<LocalBitcoinsWrapper> fetchLocalBitcoinPrice(@Url String url);
 }
