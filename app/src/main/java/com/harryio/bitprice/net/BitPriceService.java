@@ -5,7 +5,7 @@ import com.harryio.bitprice.model.CoinSecure;
 import com.harryio.bitprice.model.Koinex;
 import com.harryio.bitprice.model.LocalBitcoins;
 import com.harryio.bitprice.model.Paxful;
-import com.harryio.bitprice.model.RateWrapper;
+import com.harryio.bitprice.model.Rate;
 import com.harryio.bitprice.model.Zebpay;
 import io.reactivex.Single;
 import java.util.List;
@@ -24,7 +24,7 @@ public interface BitPriceService {
     Single<Zebpay> fetchZebpayPrice(@Url String url);
 
     @GET
-    Single<RateWrapper> fetchDollarRate(@Url String url);
+    Single<Rate> fetchDollarRate(@Url String url);
 
     @GET
     Single<Paxful> fetchPaxfulPrice(@Url String url);

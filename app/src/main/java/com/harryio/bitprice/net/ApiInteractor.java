@@ -3,7 +3,6 @@ package com.harryio.bitprice.net;
 import android.support.annotation.StringDef;
 import com.harryio.bitprice.model.BitcoinPrice;
 import com.harryio.bitprice.model.BitcoinPrice.PriceSource;
-import com.harryio.bitprice.model.Rate;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import java.lang.annotation.Retention;
@@ -46,10 +45,9 @@ public final class ApiInteractor {
     public static Single<BitcoinPrice> fetchPaxfulPrice() {
         return ServiceFactory.getService().fetchPaxfulPrice(ApiUrl.PAXFUL)
                 .zipWith(ServiceFactory.getService().fetchDollarRate(ApiUrl.DOLLAR_RATE),
-                        (paxful, rateWrapper) -> {
-                            Rate dollarRate = rateWrapper.getRate();
+                        (paxful, rate) -> {
                             float bitcoinPriceInDollar = paxful.getPrice();
-                            float inrPrice = bitcoinPriceInDollar * dollarRate.getInr();
+                            float inrPrice = bitcoinPriceInDollar * rate.getInr();
                             return BitcoinPrice.forValue(PriceSource.PAXFUL, inrPrice);
                         })
                 .doOnError(BitcoinPrice::forError);
