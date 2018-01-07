@@ -3,7 +3,7 @@ package com.harryio.bitprice.net;
 import com.harryio.bitprice.model.CoinDelta;
 import com.harryio.bitprice.model.CoinSecureWrapper;
 import com.harryio.bitprice.model.KoinexWrapper;
-import com.harryio.bitprice.model.LocalBitcoinsWrapper;
+import com.harryio.bitprice.model.LocalBitcoins;
 import com.harryio.bitprice.model.Paxful;
 import com.harryio.bitprice.model.RateWrapper;
 import com.harryio.bitprice.model.Zebpay;
@@ -30,7 +30,7 @@ public interface BitPriceService {
     Single<Paxful> fetchPaxfulPrice(@Url String url);
 
     @GET
-    Single<LocalBitcoinsWrapper> fetchLocalBitcoinPrice(@Url String url);
+    Single<LocalBitcoins> fetchLocalBitcoinPrice(@Url String url);
 
     @GET
     Single<List<CoinDelta>> fetchCoinDeltaPrice(@Url String url);

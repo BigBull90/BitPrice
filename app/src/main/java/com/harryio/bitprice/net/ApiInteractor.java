@@ -5,7 +5,6 @@ import com.harryio.bitprice.model.BitcoinPrice;
 import com.harryio.bitprice.model.BitcoinPrice.PriceSource;
 import com.harryio.bitprice.model.Coinsecure;
 import com.harryio.bitprice.model.Koinex;
-import com.harryio.bitprice.model.LocalBitcoins;
 import com.harryio.bitprice.model.Rate;
 import io.reactivex.Observable;
 import io.reactivex.Single;
@@ -66,10 +65,8 @@ public final class ApiInteractor {
 
     public static Single<BitcoinPrice> fetchLocalBitcoinPrice() {
         return ServiceFactory.getService().fetchLocalBitcoinPrice(ApiUrl.LOCAL_BITCOINS)
-                .map(localBitcoinsWrapper -> {
-                    LocalBitcoins btc = localBitcoinsWrapper.getBtc();
-                    return BitcoinPrice.forValue(PriceSource.LOCAL_BITCOINS, btc.getPrice());
-                })
+                .map(localBitcoins -> BitcoinPrice
+                        .forValue(PriceSource.LOCAL_BITCOINS, localBitcoins.getPrice()))
                 .doOnError(BitcoinPrice::forError);
     }
 
