@@ -4,10 +4,20 @@ import com.google.gson.annotations.SerializedName;
 
 public class Rate {
 
-    @SerializedName("INR")
-    private float inr;
+    @SerializedName("rates")
+    private RateInner rate;
 
     public float getInr() {
-        return inr;
+        return rate.getInr();
+    }
+
+    private class RateInner {
+
+        @SerializedName("INR")
+        private float inr;
+
+        private float getInr() {
+            return inr;
+        }
     }
 }
