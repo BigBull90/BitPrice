@@ -5,4 +5,5 @@
     <string name="koinex">Koinex</string>
     <string name="zebpay">Zebpay</string>
     <string name="paxful">Paxful</string>
+    <string name="local_bitcoins">LocalBitcoins</string>
 </resources>

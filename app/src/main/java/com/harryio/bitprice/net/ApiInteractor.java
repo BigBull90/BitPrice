@@ -5,6 +5,7 @@ import com.harryio.bitprice.model.BitcoinPrice;
 import com.harryio.bitprice.model.BitcoinPrice.PriceSource;
 import com.harryio.bitprice.model.Coinsecure;
 import com.harryio.bitprice.model.Koinex;
+import com.harryio.bitprice.model.LocalBitcoins;
 import com.harryio.bitprice.model.Rate;
 import io.reactivex.Single;
 import java.lang.annotation.Retention;
@@ -21,6 +22,7 @@ public final class ApiInteractor {
         String KOINEX = "https://koinex.in/api/ticker";
         String ZEBPAY = "https://www.zebapi.com/api/v1/market/ticker/btc/inr";
         String PAXFUL = "https://paxful.com/api/currency/btc";
+        String LOCAL_BITCOINS = "https://localbitcoins.com/bitcoinaverage/ticker-all-currencies/";
     }
 
     public static Single<BitcoinPrice> fetchCoinsecurePrice() {
@@ -56,6 +58,16 @@ public final class ApiInteractor {
                             float inrPrice = bitcoinPriceInDollar * dollarRate.getInr();
                             return BitcoinPrice.forValue(PriceSource.PAXFUL, inrPrice);
                         })
+                .doOnError(BitcoinPrice::forError);
+
+    }
+
+    public static Single<BitcoinPrice> fethcLocalBitcoinPrice() {
+        return ServiceFactory.getService().fetchLocalBitcoinPrice(ApiUrl.LOCAL_BITCOINS)
+                .map(localBitcoinsWrapper -> {
+                    LocalBitcoins btc = localBitcoinsWrapper.getBtc();
+                    return BitcoinPrice.forValue(PriceSource.LOCAL_BITCOINS, btc.getPrice());
+                })
                 .doOnError(BitcoinPrice::forError);
 
     }

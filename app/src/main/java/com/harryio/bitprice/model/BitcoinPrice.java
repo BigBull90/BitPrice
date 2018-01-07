@@ -15,6 +15,7 @@ public final class BitcoinPrice {
         int KOINEX = R.string.koinex;
         int ZEBPAY = R.string.zebpay;
         int PAXFUL = R.string.paxful;
+        int LOCAL_BITCOINS = R.string.local_bitcoins;
     }
 
     @PriceSource
