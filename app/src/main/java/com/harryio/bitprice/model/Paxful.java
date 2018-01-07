@@ -1,6 +1,6 @@
 package com.harryio.bitprice.model;
 
-public class Paxful {
+public final class Paxful {
 
     private String price;
 
