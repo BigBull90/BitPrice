@@ -3,7 +3,6 @@ package com.harryio.bitprice.net;
 import android.support.annotation.StringDef;
 import com.harryio.bitprice.model.BitcoinPrice;
 import com.harryio.bitprice.model.BitcoinPrice.PriceSource;
-import com.harryio.bitprice.model.Coinsecure;
 import com.harryio.bitprice.model.Koinex;
 import com.harryio.bitprice.model.Rate;
 import io.reactivex.Observable;
@@ -28,10 +27,8 @@ public final class ApiInteractor {
 
     public static Single<BitcoinPrice> fetchCoinsecurePrice() {
         return ServiceFactory.getService().fetchCoinsecurePrice(ApiUrl.COINSECURE)
-                .map(coinSecureWrapper -> {
-                    Coinsecure data = coinSecureWrapper.getData();
-                    return BitcoinPrice.forValue(PriceSource.COINSECURE, data.getAsk());
-                })
+                .map(coinSecure -> BitcoinPrice
+                        .forValue(PriceSource.COINSECURE, coinSecure.getPrice()))
                 .onErrorReturn(BitcoinPrice::forError);
     }
 

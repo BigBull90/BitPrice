@@ -1,7 +1,7 @@
 package com.harryio.bitprice.net;
 
 import com.harryio.bitprice.model.CoinDelta;
-import com.harryio.bitprice.model.CoinSecureWrapper;
+import com.harryio.bitprice.model.CoinSecure;
 import com.harryio.bitprice.model.KoinexWrapper;
 import com.harryio.bitprice.model.LocalBitcoins;
 import com.harryio.bitprice.model.Paxful;
@@ -15,7 +15,7 @@ import retrofit2.http.Url;
 public interface BitPriceService {
 
     @GET
-    Single<CoinSecureWrapper> fetchCoinsecurePrice(@Url String url);
+    Single<CoinSecure> fetchCoinsecurePrice(@Url String url);
 
     @GET
     Single<KoinexWrapper> fetchKoinexPrice(@Url String url);
