@@ -16,6 +16,7 @@ public final class BitcoinPrice {
         int ZEBPAY = R.string.zebpay;
         int PAXFUL = R.string.paxful;
         int LOCAL_BITCOINS = R.string.local_bitcoins;
+        int COINDELTA = R.string.coindelta;
     }
 
     @PriceSource
